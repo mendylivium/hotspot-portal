@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="css/mikhmon-ui-light.css">
 	<link rel="stylesheet" href="css/background.css">
 	<link rel="icon" href="img/favicon.png" />
+	<script src="alpine.js"></script>
+	<script src="config.js"></script>
 	<style>
 		#customers {
 			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -129,7 +131,7 @@
 
 <body class="background">
 	<center>
-		<div class="container">
+		<div x-data="{ data: data }" class="container">
 			<div class="row">
 				<div class="col-8 mr-a" id="main" style="float:none;">
 					<div class="row">
@@ -140,7 +142,7 @@
 									<div class="card  box-shadow">
 										<div class="card-header bg-primary">
 											<marquee width="100%" direction="left" height="30%">
-												<h3 id="pisowifi_name">PisoWifi</h3>
+												<h3 id="pisowifi_name" x-text="data.portal_name"></h3>
 											</marquee>
 										</div>
 										<div class="card-body">
@@ -169,45 +171,16 @@
 									</div>
 									<div class="row">
 										<div class="slideshow-container" align="center">
-											<!-- Start of Slide1 -->
-											<div class="mySlides fade">
-												<div class="numbertext"></div>
-												<img src="img/slide1.png" style="width:96%">
-												<div class="text"></div>
-											</div>
-											<!-- End of Slide1 -->
 
-											<!-- Start of Slide2 -->
-											<div class="mySlides fade">
-												<div class="numbertext"></div>
-												<img src="img/slide2.png" style="width:96%">
-												<div class="text"></div>
-											</div>
-											<!-- End of Slide2 -->
+											<template x-for="slide in data.slides">
+												<div class="mySlides fade">
+													<div class="numbertext"></div>
+													<img src="img/slide1.png" style="width:96%">
+													<div class="text"></div>
+												</div>
+											</template>
 
-											<!-- Start of Slide3 -->
-											<div class="mySlides fade">
-												<div class="numbertext"></div>
-												<img src="img/slide3.png" style="width:96%">
-												<div class="text"></div>
-											</div>
-											<!-- End of Slide3 -->
 
-											<!-- Start of Slide4 -->
-											<div class="mySlides fade">
-												<div class="numbertext"></div>
-												<img src="img/slide4.png" style="width:96%">
-												<div class="text"></div>
-											</div>
-											<!-- End of Slide4 -->
-
-											<!-- Start of Slide5 -->
-											<div class="mySlides fade">
-												<div class="numbertext"></div>
-												<img src="img/slide4.png" style="width:96%">
-												<div class="text"></div>
-											</div>
-											<!-- End of Slide5 -->
 										</div>
 										<div style="text-align:center">
 											<span class="dot"></span>
@@ -229,7 +202,7 @@
 											}
 
 											var slideIndex = 0;
-											showSlides();
+
 
 											function showSlides() {
 												var i;
@@ -266,38 +239,17 @@
 														<h3>TIME</h3>
 													</th>
 												</tr>
-												<tr>
-													<td>
-														₱ 5
-													</td>
-													<td>
-														1 HOUR
-													</td>
-												</tr>
-												<tr>
-													<td>
-														₱ 10
-													</td>
-													<td>
-														3 HOURS
-													</td>
-												</tr>
-												<tr>
-													<td>
-														₱ 30
-													</td>
-													<td>
-														12 HOURS
-													</td>
-												</tr>
-												<tr>
-													<td>
-														₱ 50
-													</td>
-													<td>
-														24 HOURS
-													</td>
-												</tr>
+												<template x-for="rate in data.rates">
+													<tr>
+														<td x-text="rate.rate">
+															₱ 5
+														</td>
+														<td x-text="rate.time">
+															1 HOUR
+														</td>
+													</tr>
+												</template>
+
 											</table>
 										</div>
 									</div>
@@ -317,7 +269,7 @@
 	</center>
 
 
-	<script src="config.js"></script>
+	<!-- <script src="config.js"></script>
 	<script>
 
 		document.getElementById("pisowifi_name").innerHTML = portalCfg.portal_name;
@@ -336,7 +288,7 @@
 		console.log(rate_table);
 		document.getElementById("rates_piso").innerHTML = rate_table;
 
-	</script>
+	</script> -->
 	<script type="text/javascript">
 
 		document.login.username.focus();
