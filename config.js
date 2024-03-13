@@ -14,6 +14,6 @@ const data = {
         }
     ],
     "slides": [
-        "slide1.png",
+        "slide1.jpg",
     ]
 }
