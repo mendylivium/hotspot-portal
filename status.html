@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="css/mikhmon-ui-light.css">
 	<link rel="stylesheet" href="css/background.css">
 	<link rel="icon" href="img/favicon.png" />
+	<script src="alpine.js"></script>
 	<style>
 		iframe {
 			float: left;
@@ -114,17 +115,17 @@
 			let validity_seconds = 0;
 
 			$.ajax({
-				url: portalCfg.host + '/api/reports/voucher-detail?username=/$(username)',
+				url: data.host + '/api/reports/voucher-detail?username=/$(username)',
 				type: 'GET',
-				success: function (data) {
-					$('#validityRender').html(data.valid_until ?? 'N/A');
+				success: function (data_response) {
+					$('#validityRender').html(data_response.valid_until ?? 'N/A');
 				}
 			});
 
 			setInterval(function () {
-				$.get("/time.txt", function (data) {
+				$.get("/time.txt", function (data_response) {
 
-					json = JSON.parse(data);
+					json = JSON.parse(data_response);
 
 					if(json.timeleft.length>1 || json.dataleft.length>1) {
 						$("#time-left").html(json.timeleft.replace("h","hour ").replace("m","min ").replace("s","sec"));
@@ -136,8 +137,8 @@
 			}, 1100);
 		});
 
-		document.getElementById('title').innerHTML = portalCfg.portal_name + " | STATUS";
-		document.getElementById('pisowifi_name').innerHTML = portalCfg.portal_name;
+		document.getElementById('title').innerHTML = data.portal_name + " | STATUS";
+		document.getElementById('pisowifi_name').innerHTML = data.portal_name;
 
 		function extend() {
 			Swal.fire({
@@ -148,7 +149,7 @@
 			}).then((result) => {
 				if (result.value) {
 					$.ajax({
-						url: portalCfg.host + '/api/hotspot/extend',
+						url: data.host + '/api/hotspot/extend',
 						type: 'POST',
 						data: {
 							username: '$(username)',
@@ -156,11 +157,11 @@
 							mac: '$(mac)',
 							ip: '$(ip)',
 						},
-						success: function (data) {
+						success: function (data_response) {
 							Swal.fire('Success');
 						},
-						error: function (data) {
-							Swal.fire(data.responseJSON.error);
+						error: function (data_response) {
+							Swal.fire(data_response.responseJSON.error);
 						}
 					});
 				}
